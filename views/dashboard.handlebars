@@ -1,0 +1,54 @@
+<!-- dashboard.handlebars -->
+<div class="container">
+<h3>Welcome, <span id="username">{{username}}</span>!</h3>
+
+  <!-- Follower/Subscriber Gains/Losses section -->
+  <div class="row">
+    <div class="col-lg-4">
+      <!-- Gains/Losses Card -->
+      <div class="card">
+        <div class="card-body">
+          <h2>Gains/Losses</h2>
+          <!-- Display follower/subscriber gains/losses data -->
+          <p>Total Gains: {{totalGains}}</p>
+          <p>Total Losses: {{totalLosses}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Total Follower Count section -->
+  <div class="row">
+    <div class="col-lg-4">
+      <!-- Follower Count Card -->
+      <div class="card">
+        <div class="card-body">
+          <h2>Total Followers</h2>
+          <!-- Display total follower count -->
+          <p>Total Followers: {{totalFollowers}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Post Information section -->
+  <div class="row">
+    <div class="col-lg-8">
+      <!-- Post Information Card -->
+      <div class="card">
+        <div class="card-body">
+          <h2>Post Information</h2>
+          <!-- Display post information -->
+          {{#each posts}}
+            <div class="post">
+              <h3>{{title}}</h3>
+              <p>Likes: {{likes}}</p>
+              <p>Dislikes: {{dislikes}}</p>
+              <p>Share Count: {{shareCount}}</p>
+            </div>
+          {{/each}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
