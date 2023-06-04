@@ -1,0 +1,75 @@
+const router = require('express').Router();
+
+
+const { google } = require('googleapis');
+
+// Create a YouTube client
+const youtube = google.youtube({
+  version: 'v3',
+  auth: 'AIzaSyDalIa4wkK7h0gcT-sIWjb77YFnFW0E9OA', // Replace with your actual API key
+});
+
+
+async function searchVideosByUser(username) {
+  try {
+    // Retrieve the channel ID for the provided username
+    const channelsResponse = await youtube.channels.list({
+      forUsername: username,
+      part: 'id',
+    });
+    console.log(channelsResponse);
+    const channelId = channelsResponse.data.items[0].id;
+
+    // Search for videos uploaded by the channel
+    const searchResponse = await youtube.search.list({
+      channelId: channelId,
+      part: 'snippet',
+      type: 'video',
+    });
+
+    // Get the video IDs from the search results
+    const videoIds = searchResponse.data.items.map((item) => item.id.videoId);
+
+    // Retrieve video statistics using the video IDs
+    const videosResponse = await youtube.videos.list({
+      id: videoIds.join(','),
+      part: 'statistics',
+    });
+
+    // Process the search results along with video statistics
+    const videos = searchResponse.data.items;
+
+    const allVideoData = videos.map((video, index) => {
+      const { title, description, thumbnails, publishedAt } = video.snippet;
+      const { viewCount, likeCount, commentCount } = videosResponse.data.items[index].statistics;
+      return {
+        title,
+        description,
+        thumbnails,
+        publishedAt,
+        viewCount,
+        likeCount,
+        commentCount
+      }
+    });
+
+    console.log(allVideoData);
+    return allVideoData;
+  } catch (error) {
+    console.error('Error retrieving videos:', error);
+  }
+}
+
+// /api/search
+router.post('/', async (req, res) => {
+  const videoData = await searchVideosByUser(req.body.youtuber);
+  res.json(videoData)
+})
+
+
+
+// Call the function with the username of the user you want to find videos for
+
+
+
+module.exports = router;
