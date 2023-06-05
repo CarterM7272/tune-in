@@ -28,7 +28,7 @@ router.get('/profile', async (req, res) => {
 router.get('/home', async (req, res) => {
   try {
 
-
+// on home route we are by default logging the user in with the logged-in session on line 33. This should be linked to if the user logged in through our login/signup form not by default
     res.render('home', {
       logged_in: true
     });
