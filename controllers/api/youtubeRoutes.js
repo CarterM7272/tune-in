@@ -1,5 +1,5 @@
 const router = require('express').Router();
-
+const {Youtube_accounts} = require('../../models');
 
 const { google } = require('googleapis');
 
@@ -54,7 +54,10 @@ async function searchVideosByUser(username) {
     });
 
     console.log(allVideoData);
-    return allVideoData;
+    return {
+      channelId: channelId,
+      allVideoData: allVideoData
+    };
   } catch (error) {
     console.error('Error retrieving videos:', error);
   }
@@ -62,14 +65,20 @@ async function searchVideosByUser(username) {
 
 // /api/search
 router.post('/', async (req, res) => {
-  const videoData = await searchVideosByUser(req.body.youtuber);
-  res.json(videoData)
+  try {
+    const videoData = await searchVideosByUser(req.body.youtuber);
+  
+    const youtubeData = await Youtube_accounts.create({
+      youtube_accounts_id: videoData.channelId,
+      user_id: req.session.user_id
+    });
+  
+    res.json(videoData)
+
+  } catch(err) {
+    console.log(err);
+  }
 })
-
-
-
-// Call the function with the username of the user you want to find videos for
-
 
 
 module.exports = router;
