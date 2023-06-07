@@ -1,8 +1,20 @@
 <h3 class='my-4'>Home Page</h3>
-<div class='alert alert-info' role='alert'>
-  <h4 class='alert-heading'>Welcome to Tune In!</h4>
-  <p>This application will be used by Content Creators to help expand and refine
-    their personal brand by allowing them to keep track of key elements crucial
-    to building an online following.</p>
+
+<div class="row g-3">
+  <div class="col-6">
+  <input id="search-input" class="form-control form-control-lg" type="text" placeholder="Search your favorite Youtuber">
+  </div>
+
+  <div class="col-4">
+      <button id="home-search-button"  type="submit" class="btn btn-primary col-auto mb-3">Search</button>
+  </div>
+
 </div>
+
+{{#each projects}}
+  <div>
+    <h3>{{title}}</h3>
+    <p>{{description}}</p>
+  </div>
+{{/each}}
 <script src="/js/home.js"></script>
