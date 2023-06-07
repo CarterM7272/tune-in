@@ -46,4 +46,12 @@ google
 Peers in this cohort
 Prior class material and lecture
 
+ ## Technologies
+***
+  - Bootstrap
+  - YouTube Data API v3
+  - AOS (Animate on scroll)
+
+
+
 

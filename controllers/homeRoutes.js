@@ -27,10 +27,8 @@ router.get('/profile', async (req, res) => {
 // localhost:3001/home
 router.get('/home', async (req, res) => {
   try {
-
-// on home route we are by default logging the user in with the logged-in session on line 33. This should be linked to if the user logged in through our login/signup form not by default
     res.render('home', {
-      logged_in: true
+      logged_in: Boolean(req.session.logged_in)
     });
   } catch (err) {
     res.status(500).json(err);
@@ -45,6 +43,16 @@ router.get('/login', (req, res) => {
   }
 
   res.render('login');
+});
+
+router.get('/register', (req, res) => {
+
+  if (req.session.logged_in) {
+    res.redirect('/home');
+    return;
+  }
+
+  res.render('register');
 });
 
 // localhost:3001/

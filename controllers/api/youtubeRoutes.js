@@ -1,12 +1,12 @@
 const router = require('express').Router();
-
+const {Youtube_accounts} = require('../../models');
 
 const { google } = require('googleapis');
 
 // Create a YouTube client
 const youtube = google.youtube({
   version: 'v3',
-  auth: 'AIzaSyDalIa4wkK7h0gcT-sIWjb77YFnFW0E9OA', // Replace with your actual API key
+  auth: 'AIzaSyDalIa4wkK7h0gcT-sIWjb77YFnFW0E9OA', 
 });
 
 
@@ -54,22 +54,34 @@ async function searchVideosByUser(username) {
     });
 
     console.log(allVideoData);
-    return allVideoData;
+    return {
+      channelId: channelId,
+      allVideoData: allVideoData
+    };
   } catch (error) {
     console.error('Error retrieving videos:', error);
   }
 }
 
-// /api/search
 router.post('/', async (req, res) => {
-  const videoData = await searchVideosByUser(req.body.youtuber);
-  res.json(videoData)
+  try {
+    const videoData = await searchVideosByUser(req.body.youtuber);
+  
+    const youtubeData = await Youtube_accounts.create({
+      youtube_accounts_id: videoData.channelId,
+      user_id: req.session.user_id
+    });
+  
+    res.json(videoData)
+
+  } catch(err) {
+    console.log(err);
+  }
 })
 
-
-
-// Call the function with the username of the user you want to find videos for
-
+// router.post('/', (req, res) => {
+//   return res.render('home', youtubeData);
+// });
 
 
 module.exports = router;
