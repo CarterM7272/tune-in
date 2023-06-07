@@ -4,8 +4,6 @@ const searchInputEl = document.querySelector('#search-input');
 const submitFormHandler = (event) =>  {
   const searchVal = searchInputEl.value.trim();
 
-  console.log(searchVal);
-
   fetch('/api/search', {
     method: "POST",
     headers: {
