@@ -6,7 +6,7 @@ const { google } = require('googleapis');
 // Create a YouTube client
 const youtube = google.youtube({
   version: 'v3',
-  auth: 'AIzaSyDalIa4wkK7h0gcT-sIWjb77YFnFW0E9OA', // Replace with your actual API key
+  auth: 'AIzaSyDalIa4wkK7h0gcT-sIWjb77YFnFW0E9OA', 
 });
 
 
@@ -63,7 +63,6 @@ async function searchVideosByUser(username) {
   }
 }
 
-// /api/search
 router.post('/', async (req, res) => {
   try {
     const videoData = await searchVideosByUser(req.body.youtuber);
@@ -79,6 +78,10 @@ router.post('/', async (req, res) => {
     console.log(err);
   }
 })
+
+// router.post('/', (req, res) => {
+//   return res.render('home', youtubeData);
+// });
 
 
 module.exports = router;
