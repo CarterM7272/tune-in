@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const {Youtube_accounts} = require('../../models');
+const {format_amount, format_date} = require('../../utils/helpers');
 
 const { google } = require('googleapis');
 
@@ -25,6 +26,7 @@ async function searchVideosByUser(username) {
       channelId: channelId,
       part: 'snippet',
       type: 'video',
+      maxResults: 12,
     });
 
     // Get the video IDs from the search results
@@ -40,8 +42,12 @@ async function searchVideosByUser(username) {
     const videos = searchResponse.data.items;
 
     const allVideoData = videos.map((video, index) => {
-      const { title, description, thumbnails, publishedAt } = video.snippet;
-      const { viewCount, likeCount, commentCount } = videosResponse.data.items[index].statistics;
+      let { title, description, thumbnails, publishedAt } = video.snippet;
+      let { viewCount, likeCount, commentCount } = videosResponse.data.items[index].statistics;
+      publishedAt = format_date(publishedAt);
+      viewCount = format_amount(viewCount);
+      likeCount = format_amount(likeCount);
+      commentCount = format_amount(commentCount);
       return {
         title,
         description,
@@ -50,8 +56,10 @@ async function searchVideosByUser(username) {
         viewCount,
         likeCount,
         commentCount
-      }
+      };
     });
+    
+      
 
     console.log(allVideoData);
     return {
@@ -78,10 +86,6 @@ router.post('/', async (req, res) => {
     console.log(err);
   }
 })
-
-// router.post('/', (req, res) => {
-//   return res.render('home', youtubeData);
-// });
 
 
 module.exports = router;
