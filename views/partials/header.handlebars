@@ -15,19 +15,22 @@
     <div class='collapse navbar-collapse' id='navbarNav'>
       <ul class='navbar-nav ml-auto'>
         {{#unless isHomeRoute}}
+
+        {{/unless}}
+        {{#if logged_in}}
+
           <li class='nav-item'>
             <a class='nav-link' id='home-link' href='/home'>Home</a>
           </li>
-        {{/unless}}
+
         <li class='nav-item'>
           <a class='nav-link' id='login-link' href='/profile'>Profile</a>
         </li>
-        <li class='nav-item' id='dashboard-link' style='display: none;'>
-          <a class='nav-link' href='/dashboard'>Dashboard</a>
+        <li class='nav-item'>
+          <a class='nav-link'  id='dashboard-link' href='/dashboard'>Dashboard</a>
         </li>
-        {{#if logged_in}}
         <li class='nav-item' id='logout' style=''>
-          <a  class='nav-link'>
+          <a  class='nav-link' href="/logout">
             Logout
           </a>
         </li>

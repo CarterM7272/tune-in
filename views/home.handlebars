@@ -11,10 +11,26 @@
 
 </div>
 
-{{#each projects}}
-  <div>
-    <h3>{{title}}</h3>
-    <p>{{description}}</p>
-  </div>
-{{/each}}
+<div id="search-results" class="mt-4 mb-4">
+    {{!-- Search results will be dynamically populated here --}}
+</div>
+
+<div id="search-results">
+  {{#each videos}}
+    <div class="row mb-4 bg-primary">
+      <div class="col-md-2">
+        <img src="{{thumbnail}}" alt="{{title}}" class="img-fluid">
+      </div>
+      <div class="col-md-8">
+        <h3>{{title}}</h3>
+        <p>{{description}}</p>
+        <div class="video-stats">
+          <p>Views: {{viewCount}}</p>
+          <p>Likes: {{likeCount}}</p>
+          <p>Comments: {{commentCount}}</p>
+        </div>
+      </div>
+    </div>
+  {{/each}}
+</div>
 <script src="/js/home.js"></script>

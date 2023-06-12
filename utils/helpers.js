@@ -1,10 +1,11 @@
 module.exports = {
-  format_date: (date) => {
+  format_date: function(date) {
     // Format date as MM/DD/YYYY
-    return date.toLocaleDateString();
+    return new Date(date).toLocaleDateString();
   },
-  format_amount: (amount) => {
+  format_amount: function(amount) {
     // format large numbers with commas
     return parseInt(amount).toLocaleString();
   },
 };
+
